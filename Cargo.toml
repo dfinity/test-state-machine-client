@@ -1,0 +1,21 @@
+[package]
+name = "ic-test-state-machine-client"
+version = "1.0.0"
+edition = "2021"
+authors = ["The Internet Computer Project Developers"]
+description = "Rust library to interact with the ic-test-state-machine."
+license = "Apache-2.0"
+readme = "README.md"
+keywords = ["internet-computer", "dfinity", "state-machine", "test", "canister"]
+documentation = "https://docs.rs/ic-test-state-machine-client"
+homepage = "https://docs.rs/ic-test-state-machine-client"
+include = ["src", "Cargo.toml", "LICENSE", "README.md"]
+repository = "https://github.com/dfinity/test-state-machine-client"
+
+
+[dependencies]
+candid = "0.8"
+ciborium = "0.2"
+ic-cdk = "0.6"
+serde = "1"
+serde_bytes = "0.11"
