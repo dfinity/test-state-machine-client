@@ -4,6 +4,7 @@ use ciborium::de::from_reader;
 use ic_cdk::api::management_canister::main::{
     CanisterId, CanisterIdRecord, CanisterInstallMode, CreateCanisterArgument, InstallCodeArgument,
 };
+use ic_cdk::api::management_canister::provisional::CanisterSettings;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use serde_bytes::ByteBuf;
@@ -139,12 +140,14 @@ impl StateMachine {
         self.call_state_machine(Request::RootKey)
     }
 
-    pub fn create_canister(&self) -> CanisterId {
+    pub fn create_canister(&self, canister_settings: Option<CanisterSettings>) -> CanisterId {
         let CanisterIdRecord { canister_id } = call_candid(
             self,
             Principal::management_canister(),
             "create_canister",
-            (CreateCanisterArgument { settings: None },),
+            (CreateCanisterArgument {
+                settings: canister_settings,
+            },),
         )
         .map(|(x,)| x)
         .unwrap();
