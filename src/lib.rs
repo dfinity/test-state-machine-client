@@ -140,14 +140,24 @@ impl StateMachine {
         self.call_state_machine(Request::RootKey)
     }
 
-    pub fn create_canister(&self, canister_settings: Option<CanisterSettings>) -> CanisterId {
+    pub fn create_canister(&self) -> CanisterId {
         let CanisterIdRecord { canister_id } = call_candid(
             self,
             Principal::management_canister(),
             "create_canister",
-            (CreateCanisterArgument {
-                settings: canister_settings,
-            },),
+            (CreateCanisterArgument { settings: None },),
+        )
+        .map(|(x,)| x)
+        .unwrap();
+        canister_id
+    }
+
+    pub fn create_canister_with_settings(&self, settings: Option<CanisterSettings>) -> CanisterId {
+        let CanisterIdRecord { canister_id } = call_candid(
+            self,
+            Principal::management_canister(),
+            "create_canister",
+            (CreateCanisterArgument { settings },),
         )
         .map(|(x,)| x)
         .unwrap();
