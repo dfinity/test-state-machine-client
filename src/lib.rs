@@ -2,7 +2,8 @@ use candid::utils::{ArgumentDecoder, ArgumentEncoder};
 use candid::{decode_args, encode_args, Principal};
 use ciborium::de::from_reader;
 use ic_cdk::api::management_canister::main::{
-    CanisterId, CanisterIdRecord, CanisterInstallMode, CreateCanisterArgument, InstallCodeArgument,
+    CanisterId, CanisterIdRecord, CanisterInstallMode, CanisterSettings, CreateCanisterArgument,
+    InstallCodeArgument,
 };
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
@@ -145,6 +146,18 @@ impl StateMachine {
             Principal::management_canister(),
             "create_canister",
             (CreateCanisterArgument { settings: None },),
+        )
+        .map(|(x,)| x)
+        .unwrap();
+        canister_id
+    }
+
+    pub fn create_canister_with_settings(&self, settings: Option<CanisterSettings>) -> CanisterId {
+        let CanisterIdRecord { canister_id } = call_candid(
+            self,
+            Principal::management_canister(),
+            "create_canister",
+            (CreateCanisterArgument { settings },),
         )
         .map(|(x,)| x)
         .unwrap();
