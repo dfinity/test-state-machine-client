@@ -2,9 +2,10 @@ use candid::utils::{ArgumentDecoder, ArgumentEncoder};
 use candid::{decode_args, encode_args, Principal};
 use ciborium::de::from_reader;
 use ic_cdk::api::management_canister::main::{
-    CanisterId, CanisterIdRecord, CanisterInstallMode, CreateCanisterArgument, InstallCodeArgument,
+    CanisterId, CanisterIdRecord, CanisterInstallMode, CanisterSettings, CreateCanisterArgument,
+    InstallCodeArgument,
 };
-use ic_cdk::api::management_canister::provisional::CanisterSettings;
+
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use serde_bytes::ByteBuf;
