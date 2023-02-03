@@ -5,7 +5,6 @@ use ic_cdk::api::management_canister::main::{
     CanisterId, CanisterIdRecord, CanisterInstallMode, CanisterSettings, CreateCanisterArgument,
     InstallCodeArgument,
 };
-
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use serde_bytes::ByteBuf;
