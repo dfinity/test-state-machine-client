@@ -1,6 +1,6 @@
 [package]
 name = "ic-test-state-machine-client"
-version = "1.1.0"
+version = "1.1.1"
 edition = "2021"
 authors = ["The Internet Computer Project Developers"]
 description = "Rust library to interact with the ic-test-state-machine."
@@ -16,6 +16,6 @@ repository = "https://github.com/dfinity/test-state-machine-client"
 [dependencies]
 candid = "0.8"
 ciborium = "0.2"
-ic-cdk = "0.6"
+ic-cdk = "0.7"
 serde = "1"
 serde_bytes = "0.11"
