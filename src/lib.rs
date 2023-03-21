@@ -213,6 +213,27 @@ impl StateMachine {
         )
     }
 
+    pub fn reinstall_canister(
+        &self,
+        canister_id: CanisterId,
+        wasm_module: Vec<u8>,
+        arg: Vec<u8>,
+        sender: Option<Principal>,
+    ) -> Result<(), CallError> {
+        call_candid_as::<(InstallCodeArgument,), ()>(
+            self,
+            Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
+            "install_code",
+            (InstallCodeArgument {
+                mode: CanisterInstallMode::Reinstall,
+                canister_id,
+                wasm_module,
+                arg,
+            },),
+        )
+    }
+
     pub fn start_canister(
         &self,
         canister_id: CanisterId,
