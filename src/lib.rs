@@ -140,10 +140,11 @@ impl StateMachine {
         self.call_state_machine(Request::RootKey)
     }
 
-    pub fn create_canister(&self) -> CanisterId {
-        let CanisterIdRecord { canister_id } = call_candid(
+    pub fn create_canister(&self, sender: Option<Principal>) -> CanisterId {
+        let CanisterIdRecord { canister_id } = call_candid_as(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "create_canister",
             (CreateCanisterArgument { settings: None },),
         )
@@ -152,10 +153,15 @@ impl StateMachine {
         canister_id
     }
 
-    pub fn create_canister_with_settings(&self, settings: Option<CanisterSettings>) -> CanisterId {
-        let CanisterIdRecord { canister_id } = call_candid(
+    pub fn create_canister_with_settings(
+        &self,
+        settings: Option<CanisterSettings>,
+        sender: Option<Principal>,
+    ) -> CanisterId {
+        let CanisterIdRecord { canister_id } = call_candid_as(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "create_canister",
             (CreateCanisterArgument { settings },),
         )
@@ -164,10 +170,17 @@ impl StateMachine {
         canister_id
     }
 
-    pub fn install_canister(&self, canister_id: CanisterId, wasm_module: Vec<u8>, arg: Vec<u8>) {
-        call_candid::<(InstallCodeArgument,), ()>(
+    pub fn install_canister(
+        &self,
+        canister_id: CanisterId,
+        wasm_module: Vec<u8>,
+        arg: Vec<u8>,
+        sender: Option<Principal>,
+    ) {
+        call_candid_as::<(InstallCodeArgument,), ()>(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "install_code",
             (InstallCodeArgument {
                 mode: CanisterInstallMode::Install,
@@ -184,10 +197,12 @@ impl StateMachine {
         canister_id: CanisterId,
         wasm_module: Vec<u8>,
         arg: Vec<u8>,
+        sender: Option<Principal>,
     ) -> Result<(), CallError> {
-        call_candid::<(InstallCodeArgument,), ()>(
+        call_candid_as::<(InstallCodeArgument,), ()>(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "install_code",
             (InstallCodeArgument {
                 mode: CanisterInstallMode::Upgrade,
@@ -198,28 +213,43 @@ impl StateMachine {
         )
     }
 
-    pub fn start_canister(&self, canister_id: CanisterId) -> Result<(), CallError> {
-        call_candid::<(CanisterIdRecord,), ()>(
+    pub fn start_canister(
+        &self,
+        canister_id: CanisterId,
+        sender: Option<Principal>,
+    ) -> Result<(), CallError> {
+        call_candid_as::<(CanisterIdRecord,), ()>(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "start_canister",
             (CanisterIdRecord { canister_id },),
         )
     }
 
-    pub fn stop_canister(&self, canister_id: CanisterId) -> Result<(), CallError> {
-        call_candid::<(CanisterIdRecord,), ()>(
+    pub fn stop_canister(
+        &self,
+        canister_id: CanisterId,
+        sender: Option<Principal>,
+    ) -> Result<(), CallError> {
+        call_candid_as::<(CanisterIdRecord,), ()>(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "stop_canister",
             (CanisterIdRecord { canister_id },),
         )
     }
 
-    pub fn delete_canister(&self, canister_id: CanisterId) -> Result<(), CallError> {
-        call_candid::<(CanisterIdRecord,), ()>(
+    pub fn delete_canister(
+        &self,
+        canister_id: CanisterId,
+        sender: Option<Principal>,
+    ) -> Result<(), CallError> {
+        call_candid_as::<(CanisterIdRecord,), ()>(
             self,
             Principal::management_canister(),
+            sender.unwrap_or(Principal::anonymous()),
             "delete_canister",
             (CanisterIdRecord { canister_id },),
         )
