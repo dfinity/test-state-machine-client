@@ -18,6 +18,7 @@ use std::time::{Duration, SystemTime};
 pub enum Request {
     RootKey,
     Time,
+    SetTime(SystemTime),
     AdvanceTime(Duration),
     CanisterUpdateCall(CanisterCall),
     CanisterQueryCall(CanisterCall),
@@ -282,6 +283,10 @@ impl StateMachine {
 
     pub fn time(&self) -> SystemTime {
         self.call_state_machine(Request::Time)
+    }
+
+    pub fn set_time(&self, time: SystemTime) {
+        self.call_state_machine(Request::SetTime(time))
     }
 
     pub fn advance_time(&self, duration: Duration) {
