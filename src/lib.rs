@@ -29,6 +29,15 @@ pub enum Request {
     ReadStableMemory(RawCanisterId),
     Tick,
     RunUntilCompletion(RunUntilCompletionArg),
+    VerifyCanisterSig(VerifyCanisterSigArg),
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct VerifyCanisterSigArg {
+    pub msg: Vec<u8>,
+    pub sig: Vec<u8>,
+    pub pubkey: Vec<u8>,
+    pub root_pubkey: Vec<u8>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -322,6 +331,23 @@ impl StateMachine {
         self.call_state_machine(Request::AddCycles(AddCyclesArg {
             canister_id: canister_id.as_slice().to_vec(),
             amount,
+        }))
+    }
+
+    /// Verifies a canister signature. Returns Ok(()) if the signature is valid.
+    /// On error, returns a string describing the error.
+    pub fn verify_canister_signature(
+        &self,
+        msg: Vec<u8>,
+        sig: Vec<u8>,
+        pubkey: Vec<u8>,
+        root_pubkey: Vec<u8>,
+    ) -> Result<(), String> {
+        self.call_state_machine(Request::VerifyCanisterSig(VerifyCanisterSigArg {
+            msg,
+            sig,
+            pubkey,
+            root_pubkey,
         }))
     }
 
