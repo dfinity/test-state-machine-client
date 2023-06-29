@@ -16,6 +16,6 @@ repository = "https://github.com/dfinity/test-state-machine-client"
 [dependencies]
 candid = "0.8"
 ciborium = "0.2"
-ic-cdk = "0.8"
+ic-cdk = "0.9"
 serde = "1"
 serde_bytes = "0.11"
