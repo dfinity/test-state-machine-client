@@ -1,6 +1,6 @@
 [package]
 name = "ic-test-state-machine-client"
-version = "2.2.1"
+version = "3.0.0"
 edition = "2021"
 authors = ["The Internet Computer Project Developers"]
 description = "Rust library to interact with the ic-test-state-machine."
