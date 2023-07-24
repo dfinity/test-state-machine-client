@@ -1,10 +1,9 @@
+use crate::management_canister::{
+    CanisterId, CanisterIdRecord, CanisterInstallMode, CreateCanisterArgument, InstallCodeArgument,
+};
 use candid::utils::{ArgumentDecoder, ArgumentEncoder};
 use candid::{decode_args, encode_args, Principal};
 use ciborium::de::from_reader;
-use ic_cdk::api::management_canister::main::{
-    CanisterId, CanisterIdRecord, CanisterInstallMode, CanisterSettings, CreateCanisterArgument,
-    InstallCodeArgument,
-};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use serde_bytes::ByteBuf;
@@ -13,6 +12,10 @@ use std::fmt;
 use std::io::{Read, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::time::{Duration, SystemTime};
+
+mod management_canister;
+
+pub use management_canister::CanisterSettings;
 
 #[derive(Serialize, Deserialize)]
 pub enum Request {
